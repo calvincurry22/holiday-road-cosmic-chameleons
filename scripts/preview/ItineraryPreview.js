@@ -50,7 +50,13 @@ eventHub.addEventListener('parkChosen', (customEvent) => {
   verifyUserSelection()
   getWeather(foundPark.addresses[0].postalCode).then(() => {
     const weatherData = useWeather()
-    weatherData.map(weatherObj => {
+    const weatherArray = weatherData.filter(weatherObjS => {
+      const [prefix, time] = weatherObjS.dt_txt.split(" ")
+
+      
+
+      return time === "12:00:00" })
+    weatherArray.map(weatherObj => {
       weatherContentTarget.innerHTML += Weather(weatherObj)
     })
     
