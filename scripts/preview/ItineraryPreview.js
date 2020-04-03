@@ -50,8 +50,11 @@ eventHub.addEventListener('parkChosen', (customEvent) => {
   verifyUserSelection()
   getWeather(foundPark.addresses[0].postalCode).then(() => {
     const weatherData = useWeather()
-    weatherContentTarget.innerHTML = Weather(weatherData)
+    weatherData.map(weatherObj => {
+      weatherContentTarget.innerHTML += Weather(weatherObj)
     })
+    
+  })
 })
 
 // Creates a custom event that finds the user-selected attraction and inserts into the HTML;

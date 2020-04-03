@@ -19,13 +19,15 @@ export const getWeather = (postalCode) => {
   return fetch(`https://api.openweathermap.org/data/2.5/forecast?zip=${postalCode}&units=imperial&&appid=${keys.weatherKey}`)
     .then((response) => response.json())
     .then((parsedWeather) => {
-      weather = parsedWeather.list[0]
+      weather = parsedWeather.list
     })
     .then(dispatchWeatherChangeEvent)
+  
 }
 
 // Exports a copy of the updated weather object for use by other modules: 
 
 export const useWeather = () => {
+  
   return weather
 }
