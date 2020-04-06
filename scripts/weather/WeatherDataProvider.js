@@ -8,7 +8,7 @@ let weather = {}
 
 // Dispatches custom event notifying other modules that a weather state change has occurred:
 
-const dispatchWeatherChangeEvent = () => {
+export const dispatchWeatherChangeEvent = () => {
   const weatherStateChangedEvent = new CustomEvent("weatherStateChanged")
   eventHub.dispatchEvent(weatherStateChangedEvent)
 }

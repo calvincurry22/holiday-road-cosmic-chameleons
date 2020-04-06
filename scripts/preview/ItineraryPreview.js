@@ -51,8 +51,34 @@ eventHub.addEventListener('parkChosen', (customEvent) => {
   getWeather(foundPark.addresses[0].postalCode).then(() => {
     const weatherData = useWeather()
     weatherContentTarget.innerHTML = Weather(weatherData)
-    })
+  })
 })
+// WeatherFilter is a function that contains filtered weather
+const WeatherFilter = () => {
+
+  // Store the weather in a variable
+  let showWeather = useWeather()
+
+  const weatherShown = showWeather.filter(weather => {
+    if (weather.dt_txt.includes("12:00:00")) {
+      return true
+    }
+    return false
+  })
+  render(weatherShown)
+}
+
+const render = renderWeather => {
+  contentTarget.innerHTML = renderWeather.map(
+    (weatherObject) => {
+      return Weather(weatherObject)
+    }
+  ).join("")
+}
+eventHub.addEventListener("weatherStateChanged", customEvent => {
+  WeatherFilter()
+})
+
 
 // Creates a custom event that finds the user-selected attraction and inserts into the HTML;
 // Changes the state of the attractionChosen event to true once the user has selected an option:
@@ -92,16 +118,16 @@ contentTarget.addEventListener("click", clickEvent => {
     const locatedPark = parksList.find(parkObject => {
       return parkObject.parkCode === parkSelected
     })
-     // Finds the corresonding eatery object and grabs its name: 
-     const eateriesList = useEateries()
-     const locatedEatery = eateriesList.find(eateryObject => {
-       return eateryObject.id === parseInt(eaterySelected)
-     })
-     // Finds the corresonding attraction object and grabs its name:
-     const attractionsList = useAttractions()
-     const locatedAttraction = attractionsList.find(attractionObject => {
-       return attractionObject.id === parseInt(attractionSelected)
-     })
+    // Finds the corresonding eatery object and grabs its name: 
+    const eateriesList = useEateries()
+    const locatedEatery = eateriesList.find(eateryObject => {
+      return eateryObject.id === parseInt(eaterySelected)
+    })
+    // Finds the corresonding attraction object and grabs its name:
+    const attractionsList = useAttractions()
+    const locatedAttraction = attractionsList.find(attractionObject => {
+      return attractionObject.id === parseInt(attractionSelected)
+    })
     // Store the data for the saved itinerary display and call function to render it 
     const newItinerary = {
       park: locatedPark.name,
